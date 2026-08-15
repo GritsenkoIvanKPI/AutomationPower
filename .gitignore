@@ -1,0 +1,8 @@
+# symlink to a shared puppeteer install on the build machine
+node_modules
+
+# QA screenshots produced by screenshot.mjs / shot-*.mjs — regenerable, ~328 MB
+temporary screenshots/
+
+# macOS
+.DS_Store

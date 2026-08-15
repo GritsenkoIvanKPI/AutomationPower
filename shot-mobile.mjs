@@ -1,0 +1,11 @@
+import puppeteer from 'puppeteer';
+const b = await puppeteer.launch({headless:true,args:['--no-sandbox']});
+const p = await b.newPage();
+await p.setViewport({width:390,height:844,deviceScaleFactor:1});
+await p.goto('http://localhost:3400',{waitUntil:'networkidle2'});
+await new Promise(r=>setTimeout(r,1500));
+await p.evaluate(()=>document.querySelectorAll('.reveal').forEach(e=>e.classList.add('visible')));
+await new Promise(r=>setTimeout(r,600));
+await p.screenshot({path:'temporary screenshots/mobile.png',fullPage:true});
+await b.close();
+console.log('ok');
