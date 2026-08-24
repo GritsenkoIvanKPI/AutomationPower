@@ -422,8 +422,7 @@ TYPE_SUB = {"21700":"Циліндричні збірки на 21700","hd":"Pouch
 
 BRAND = """<a href="index.html" class="brand" aria-label="Automaton Power — на головну">
         <span class="brand-mk">
-          <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M13.6 2 4 13.6h6.1L9.3 22 20 10.4h-6.4L13.6 2Z" fill="#EF7F3D"/></svg>
+          <img src="images/logo-mark.png" alt="" width="38" height="38" decoding="async">
         </span>
         <span>
           <span class="brand-t">Automaton Power</span>
@@ -649,7 +648,8 @@ def build(key):
 <meta property="og:description" content="{esc(p["meta"])}">
 <meta property="og:image" content="{p["hero_img"]}">
 <meta property="og:locale" content="uk_UA">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' fill='%23111111'/%3E%3Cpath d='M13.6 2 4 13.6h6.1L9.3 22 20 10.4h-6.4L13.6 2Z' fill='%23EF7F3D'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
