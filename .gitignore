@@ -6,3 +6,8 @@ temporary screenshots/
 
 # macOS
 .DS_Store
+
+# rembg virtualenv + rebuild logs (tooling, regenerable)
+.venv-bg/
+rebuild_progress.log
+rebuild_errors.log

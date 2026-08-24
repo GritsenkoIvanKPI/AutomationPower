@@ -339,7 +339,7 @@ PAGES["hd"] = dict(
  gallery=[("images/hero-hd.jpg","Pouch / Stack"),
           ("images/phd-2.jpg","Foil edges"),
           ("images/type-hd.jpg","High density"),
-          ("images/phd-1.jpg","Assembly"),
+          ("images/b2.jpg","Cell stack"),
           ("images/phd-3.jpg","End face"),
           ("images/phd-4.jpg","Pouch / Yellow")],
  faq=[("Чим високощільні збірки відрізняються від циліндричних?",
