@@ -15,7 +15,7 @@ import numpy as np
 from PIL import Image, ImageFilter, ImageOps
 from rembg import remove, new_session
 
-BG_TOP, BG_BOTTOM = (26, 26, 26), (14, 14, 14)   # neutral, matches the site's #111111
+BG_LOW, BG_HIGH = 9.0, 46.0        # plate falls off to near-black, lifts behind the product
 SESSION = new_session("isnet-general-use")        # sharper edges than u2net on hard goods
 
 
@@ -51,17 +51,47 @@ def largest_component(mask, thresh=8):
     return np.where(lab == keep, mask, 0).astype(np.uint8)
 
 
-def studio_bg(size):
+def studio_bg(size, subject):
+    """Lit studio plate: a soft light pool behind the product, falling off to near-black,
+    plus a faint floor band under it. Keyed to where the subject actually sits so the
+    light reads as aimed at the product rather than a flat fill."""
     w, h = size
-    grad = np.linspace(0, 1, h, dtype=np.float32)[:, None]
-    top = np.array(BG_TOP, np.float32)
-    bot = np.array(BG_BOTTOM, np.float32)
-    img = (top * (1 - grad) + bot * grad)[:, None, :].repeat(w, axis=1)
-    # soft vignette so the plate reads as a lit backdrop rather than flat fill
+    sx0, sy0, sx1, sy1 = subject
+    cx, cy = (sx0 + sx1) / 2 / w, (sy0 + sy1) / 2 / h
     yy, xx = np.mgrid[0:h, 0:w].astype(np.float32)
-    r = np.sqrt(((xx / w - .5) * 1.15) ** 2 + ((yy / h - .5) * 1.15) ** 2)
-    img *= (1.0 - 0.55 * np.clip(r, 0, 1) ** 1.7)[:, :, None]
-    return Image.fromarray(np.clip(img, 0, 255).astype(np.uint8), "RGB")
+    nx, ny = xx / w, yy / h
+
+    # main light pool, centred a little above the product
+    r = np.sqrt(((nx - cx) * 1.05) ** 2 + ((ny - (cy - 0.10)) * 1.30) ** 2)
+    pool = np.clip(1.0 - r / 0.92, 0, 1) ** 1.55
+
+    # faint floor band just under the product, suggesting a surface
+    floor_y = sy1 / h
+    band = np.exp(-(((ny - floor_y - 0.05) / 0.20) ** 2)) * np.clip(1.0 - abs(nx - cx) / 0.75, 0, 1)
+
+    L = BG_LOW + (BG_HIGH - BG_LOW) * pool + 7.0 * band
+    # corner vignette keeps the frame from feeling like a lit box
+    v = np.sqrt(((nx - .5) * 1.2) ** 2 + ((ny - .5) * 1.2) ** 2)
+    L *= 1.0 - 0.42 * np.clip(v, 0, 1) ** 2.0
+    img = np.repeat(np.clip(L, 0, 255)[:, :, None], 3, axis=2)
+    return Image.fromarray(img.astype(np.uint8), "RGB")
+
+
+def contact_shadow(alpha_crop, size):
+    """Shadow derived from the product's own silhouette, squashed and blurred so it reads
+    as cast onto the surface rather than as a drop shadow."""
+    w, h = size
+    m = Image.fromarray(alpha_crop, "L")
+    ys = np.nonzero(alpha_crop > 8)[0]
+    if not len(ys):
+        return None
+    bottom = ys.max()
+    squash = 0.20
+    sh = m.resize((w, max(1, int(h * squash))), Image.BILINEAR)
+    plate = Image.new("L", (w, h), 0)
+    plate.paste(sh, (int(w * 0.012), int(bottom - h * squash * 0.42)))
+    plate = plate.filter(ImageFilter.GaussianBlur(max(10, w // 34)))
+    return plate.point(lambda v: int(v * 0.60))
 
 
 def main():
@@ -121,16 +151,18 @@ def main():
     L, T = int(round(cx - bw * fx)), int(round(cy - bh / 2))
     W, H = int(round(bw)), int(round(bh))
 
+    alpha_crop = np.array(Image.fromarray(alpha, "L").crop((L, T, L + W, T + H)))
     fg = Image.fromarray(np.dstack([np.array(src), alpha]), "RGBA").crop((L, T, L + W, T + H))
-    out = studio_bg((W, H))
 
-    # contact shadow, built from the mask so it matches the real silhouette
-    sh = Image.fromarray(alpha, "L").crop((L, T, L + W, T + H))
-    sh = sh.filter(ImageFilter.GaussianBlur(max(6, W // 55)))
-    sh = sh.point(lambda v: int(v * 0.55))
-    out.paste(Image.new("RGB", (W, H), (0, 0, 0)),
-              (0, max(4, H // 90)), sh)
+    sub = np.nonzero(alpha_crop > 8)
+    subject = (sub[1].min(), sub[0].min(), sub[1].max(), sub[0].max()) if len(sub[0]) else (0, 0, W, H)
+    out = studio_bg((W, H), subject)
 
+    sh = contact_shadow(alpha_crop, (W, H))
+    if sh is not None:
+        out.paste(Image.new("RGB", (W, H), (0, 0, 0)), (0, 0), sh)
+
+    # the product's own pixels go down last and are never modified
     out.paste(fg, (0, 0), fg)
     out.save(a.dst, quality=95)
     cov = (alpha > 8).sum() / alpha.size
