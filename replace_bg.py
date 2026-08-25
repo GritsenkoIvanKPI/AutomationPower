@@ -69,6 +69,11 @@ def main():
     ap.add_argument("src"); ap.add_argument("dst")
     ap.add_argument("--pad", type=float, default=0.06)
     ap.add_argument("--ratio", type=float, default=4 / 3)
+    ap.add_argument("--clear", default=None,
+                    help="x0,y0,x1,y1 in source px: drop backdrop-coloured pixels only "
+                         "inside this box (for mat the matte wrongly keeps near wires)")
+    ap.add_argument("--cleartol", type=float, default=44.0,
+                    help="colour tolerance for --clear")
     ap.add_argument("--anchor", default="center", choices=["center", "right"],
                     help="where the subject sits in the frame (banners use right)")
     a = ap.parse_args()
@@ -84,6 +89,21 @@ def main():
                  alpha_matting_erode_size=6)
     alpha = np.array(cut.split()[-1])
     alpha = largest_component(alpha)
+
+    if a.clear:
+        # A global colour key is impossible here: the cells sit closer to the mat colour
+        # than the mat's own mid-field. Inside a small box around the leak, though, the only
+        # things present are mat, wires and the connector, which separate cleanly.
+        cx0, cy0, cx1, cy1 = (int(v) for v in a.clear.split(","))
+        box = np.array(src, np.int16)[cy0:cy1, cx0:cx1]
+        sub = alpha[cy0:cy1, cx0:cx1]
+        held = box[sub > 8]
+        if len(held):
+            local = np.median(held[np.argsort(np.abs(held[:, 1].astype(int) - held[:, 2]))[:len(held)//2]], axis=0)
+            dist = np.sqrt(((box - local) ** 2).sum(axis=2))
+            drop = (dist < a.cleartol) & (sub > 8)
+            alpha[cy0:cy1, cx0:cx1] = np.where(drop, 0, sub)
+            print(f"  cleared {int(drop.sum()):,} backdrop px inside {a.clear}")
 
     ys, xs = np.nonzero(alpha > 8)
     if len(xs) == 0:
