@@ -78,20 +78,28 @@ def studio_bg(size, subject):
 
 
 def contact_shadow(alpha_crop, size):
-    """Shadow derived from the product's own silhouette, squashed and blurred so it reads
-    as cast onto the surface rather than as a drop shadow."""
+    """Shadow traced along the product's actual bottom contour.
+
+    A uniformly squashed silhouette only grounds objects that sit flat; for a pack shot
+    at an angle it smears the whole shape and the product appears to float. Taking the
+    lowest opaque pixel per column instead puts the darkness exactly where the product
+    meets the surface, whatever its pose."""
     w, h = size
-    m = Image.fromarray(alpha_crop, "L")
-    ys = np.nonzero(alpha_crop > 8)[0]
-    if not len(ys):
+    m = alpha_crop > 8
+    if not m.any():
         return None
-    bottom = ys.max()
-    squash = 0.20
-    sh = m.resize((w, max(1, int(h * squash))), Image.BILINEAR)
-    plate = Image.new("L", (w, h), 0)
-    plate.paste(sh, (int(w * 0.012), int(bottom - h * squash * 0.42)))
-    plate = plate.filter(ImageFilter.GaussianBlur(max(10, w // 34)))
-    return plate.point(lambda v: int(v * 0.60))
+    plate = np.zeros((h, w), np.float32)
+    cols = np.nonzero(m.any(axis=0))[0]
+    lows = np.array([np.nonzero(m[:, x])[0].max() for x in cols])
+    # vertical falloff below each contact point
+    span = max(8, int(h * 0.10))
+    yy = np.arange(h)[:, None]
+    d = yy - lows[None, :]
+    blob = np.exp(-(d / (span * 0.55)) ** 2) * (d >= -span * 0.25)
+    plate[:, cols] = blob
+    img = Image.fromarray((np.clip(plate, 0, 1) * 255).astype(np.uint8), "L")
+    img = img.filter(ImageFilter.GaussianBlur(max(9, w // 42)))
+    return img.point(lambda v: int(v * 0.72))
 
 
 def main():
