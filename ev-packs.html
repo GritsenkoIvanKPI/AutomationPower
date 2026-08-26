@@ -640,7 +640,12 @@ a.cline:hover .cval{color:var(--accent)}
 .phero-media img{width:100%;height:100%;object-fit:cover;display:block}
 @media(min-width:1000px){
   /* bleed the photo to the right edge of the viewport */
-  .phero-media{margin-right:calc(50% - 50vw);aspect-ratio:auto;height:clamp(420px,52vw,560px)}
+  /* Bleed to the viewport's right edge. `50% - 50vw` is the full-bleed trick for an
+     element spanning a centred container — but this sits in the right grid COLUMN, so
+     its 50% is half the column, not half the container, and it overshot the viewport by
+     ~400px (a third of the image sat off-screen). Measure from the wrap's content edge. */
+  .phero-media{margin-right:calc((min(1620px, 100vw) - 2 * var(--gut)) / 2 - 50vw);
+    aspect-ratio:auto;height:clamp(420px,52vw,560px)}
 }
 .phero-tag{position:absolute;left:0;top:0;z-index:2;font-family:'IBM Plex Mono',monospace;
   font-size:10px;letter-spacing:.2em;padding:9px 13px;background:rgba(17,17,17,.66);
