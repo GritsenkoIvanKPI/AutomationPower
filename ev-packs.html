@@ -555,7 +555,9 @@ body.nav-open{overflow:hidden}
 .sec-greige{background:var(--greige);color:var(--bone)}
 .sec-ink{background:var(--ink)}
 .sec-ink2{background:var(--ink2)}
-.sechead{display:grid;grid-template-columns:1fr;gap:22px;align-items:end}
+/* centre the intro paragraph against the heading. `end` aligned their bottom edges,
+   but the heading is far taller, so the paragraph sat 70-98px below the optical centre. */
+.sechead{display:grid;grid-template-columns:1fr;gap:22px;align-items:center}
 @media(min-width:1024px){.sechead{grid-template-columns:1.35fr .85fr;gap:60px}}
 .split{display:grid;grid-template-columns:1fr;gap:48px}
 @media(min-width:1024px){
