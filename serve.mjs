@@ -21,6 +21,11 @@ const MIME = {
   '.woff': 'font/woff',
   '.woff2': 'font/woff2',
   '.ico': 'image/x-icon',
+  // robots.txt / sitemap.xml / llms.txt were falling through to octet-stream,
+  // which browsers and crawlers treat as a download rather than a document
+  '.txt': 'text/plain; charset=utf-8',
+  '.xml': 'application/xml; charset=utf-8',
+  '.pdf': 'application/pdf',
 };
 
 http.createServer((req, res) => {

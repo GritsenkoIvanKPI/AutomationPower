@@ -275,6 +275,47 @@ default connector, and whether capacity/voltage figures may be published.
    `stroke-width` divided by the same scale so line weight stays identical. **Re-run it after adding
    any icon**, then `python3 build_pages.py`.
 
+## Discovery: SEO + AI answer engines
+Run **after** `build_pages.py`:
+
+    python3 build_pages.py
+    python3 build_seo.py        # meta + JSON-LD on index, robots/sitemap/llms, image dimensions
+
+`build_seo.py` scrapes the FAQ answers out of the built HTML and `build_pages.py` builds each
+product page's schema from its own `PAGES` entry — so the structured data can never claim
+something the visible page does not say. That is the thing both Google and AI answer engines
+penalise, and it is why none of it is hand-written.
+
+What is in place:
+- **JSON-LD** — Organization + WebSite + WebPage + FAQPage + ItemList on the home page;
+  WebPage + BreadcrumbList + Product (specs as `additionalProperty`) + FAQPage on each
+  product page. All parse as valid JSON.
+- **robots.txt** — names the AI crawlers explicitly (GPTBot, OAI-SearchBot, ClaudeBot,
+  PerplexityBot, Google-Extended, Applebot-Extended, CCBot, meta-externalagent) rather than
+  relying on the wildcard, plus the sitemap reference.
+- **llms.txt** — plain-language summary for AI agents. It carries an explicit warning that
+  the spec values are *parameters agreed per order*, not fixed product specifications, so an
+  answer engine does not quote invented capacities.
+- **sitemap.xml**, canonicals, Open Graph with absolute image URLs, Twitter cards, theme-color.
+
+### Tailwind CDN removed
+The markup used exactly **seven** Tailwind utilities. The CDN was a ~400KB render-blocking
+script compiling CSS in the browser — delaying first paint and hiding layout from crawlers
+that do not run JS. Those seven are now plain CSS (`.flex`, `.flex-wrap`, `.items-center`,
+`.gap-3`, and the six step-progress widths as `:nth-child` rules). Product pages load in ~83ms
+with no third-party JS. **Do not re-add Tailwind classes** — they will silently do nothing.
+
+### Image loading priority
+`add_image_dims()` stamps intrinsic width/height (prevents layout shift) and sets priority by
+role: `images/hero-*` load eagerly with `fetchpriority="high"` because the hero photo is the
+LCP element; everything else is lazy. An earlier version keyed off document order and put the
+high-priority hint on the header logo while lazy-loading the hero — which delays LCP rather
+than improving it.
+
+### serve.mjs MIME types
+`.txt`, `.xml` and `.pdf` were falling through to `application/octet-stream`, so robots.txt
+and sitemap.xml were served as downloads. Fixed in the MIME map.
+
 ## Local tooling
 - `serve.mjs` now honours `PORT` (another project already occupies 3000): `PORT=3400 node serve.mjs`
 - `node_modules` is a symlink to `../DS motors/node_modules` for puppeteer — re-point or `npm i puppeteer` if it breaks.

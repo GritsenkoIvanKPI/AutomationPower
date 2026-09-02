@@ -597,6 +597,59 @@ document.getElementById('quote').addEventListener('submit', e => {
 </script>"""
 
 
+SITE = "https://automatonpower.com.ua"
+ORG_ID = f"{SITE}/#organization"
+
+
+def seo_head(key, p):
+    """Canonical/social meta plus a JSON-LD graph generated from this page's own content,
+    so the structured data can never claim something the visible page does not say."""
+    import json as _json
+    url = f"{SITE}/{p['file']}"
+    img = f"{SITE}/{p['hero_img']}"
+    faq = p["faq"] + COMMON_FAQ
+    graph = [
+        {"@type": "WebPage", "@id": url + "#webpage", "url": url,
+         "name": p["title"], "description": p["meta"], "inLanguage": "uk",
+         "isPartOf": {"@id": f"{SITE}/#website"}, "about": {"@id": url + "#product"}},
+        {"@type": "BreadcrumbList", "@id": url + "#breadcrumb", "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Головна", "item": SITE + "/"},
+            {"@type": "ListItem", "position": 2, "name": "Акумулятори", "item": SITE + "/#types"},
+            {"@type": "ListItem", "position": 3, "name": p["nav_title"]}]},
+        {"@type": "Product", "@id": url + "#product",
+         "name": p["title"], "description": p["meta"], "image": img,
+         "category": "Акумуляторні збірки",
+         "brand": {"@id": ORG_ID}, "manufacturer": {"@id": ORG_ID},
+         "additionalProperty": [
+             {"@type": "PropertyValue", "name": k, "value": v} for k, v in p["specs"]],
+         "offers": {"@type": "Offer", "availability": "https://schema.org/InStock",
+                    "priceCurrency": "UAH",
+                    "priceSpecification": {"@type": "PriceSpecification",
+                                           "description": "Ціна за технічним завданням"},
+                    "eligibleQuantity": {"@type": "QuantitativeValue", "minValue": 100,
+                                         "unitText": "шт."},
+                    "seller": {"@id": ORG_ID}, "url": url}},
+        {"@type": "FAQPage", "@id": url + "#faq", "mainEntity": [
+            {"@type": "Question", "name": q,
+             "acceptedAnswer": {"@type": "Answer", "text": a}} for q, a in faq]},
+    ]
+    ld = _json.dumps({"@context": "https://schema.org", "@graph": graph},
+                     ensure_ascii=False, indent=1)
+    return f"""<link rel="canonical" href="{url}">
+<meta name="theme-color" content="#111111">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:url" content="{url}">
+<meta property="og:site_name" content="Automaton Power">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{esc(p['title'])} — Automaton Power">
+<meta name="twitter:description" content="{esc(p['meta'])}">
+<meta name="twitter:image" content="{img}">
+<script type="application/ld+json">
+{ld}
+</script>"""
+
+
 def build(key):
     p = PAGES[key]
     others = [k for k in ORDER if k != key]
@@ -651,14 +704,14 @@ def build(key):
 <meta property="og:type" content="website">
 <meta property="og:title" content="{esc(p["title"])} — Automaton Power">
 <meta property="og:description" content="{esc(p["meta"])}">
-<meta property="og:image" content="{p["hero_img"]}">
+<meta property="og:image" content="{SITE}/{p["hero_img"]}">
 <meta property="og:locale" content="uk_UA">
+{seo_head(key, p)}
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
 <style>{shared_css}{PAGE_CSS}</style>
 </head>
 <body>

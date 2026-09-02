@@ -8,32 +8,22 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Automaton Power — контрактне виробництво акумуляторів для FPV та БПЛА">
 <meta property="og:description" content="Серійне виготовлення акумуляторних збірок із ваших або наших елементів. Серії від 100 шт., до 500+ акумуляторів на день.">
-<meta property="og:image" content="images/hero-wide.jpg">
+<meta property="og:image" content="https://automatonpower.com.ua/images/hero-wide.jpg">
 <meta property="og:locale" content="uk_UA">
+<link rel="canonical" href="https://automatonpower.com.ua/">
+<meta name="theme-color" content="#111111">
+<meta name="color-scheme" content="dark">
+<meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
+<meta property="og:url" content="https://automatonpower.com.ua/">
+<meta property="og:site_name" content="Automaton Power">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Automaton Power — контрактне виробництво акумуляторів">
+<meta name="twitter:image" content="https://automatonpower.com.ua/images/hero-wide.jpg">
 <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
 <link rel="apple-touch-icon" href="images/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.tailwindcss.com"></script>
-<script>
-tailwind.config = {
-  theme: {
-    extend: {
-      colors: {
-        ink: '#111111', ink2: '#111111', ink3: '#111111',
-        bone: '#FFFFFF', greige: '#111111', raised: '#1A1A1A',
-        accent: '#EF7F3D', accentd: '#EF7F3D',
-      },
-      fontFamily: {
-        display: ['Onest', 'sans-serif'],
-        sans: ['"IBM Plex Sans"', 'sans-serif'],
-        mono: ['"IBM Plex Mono"', 'monospace'],
-      },
-    },
-  },
-};
-</script>
 <style>
 :root{
   /* Neutral grey base — no warm tint. Every section shares one flat background;
@@ -64,6 +54,14 @@ img{display:block}
 
 /* No grain, no glow fields, no column grid — the background is a flat solid colour.
    Separation comes from hairlines and borders only. */
+
+/* The seven Tailwind utilities the markup actually used. Defining them here lets us
+   drop the CDN — a ~400KB render-blocking script that compiled CSS in the browser,
+   delaying first paint and hiding layout from crawlers that do not run JS. */
+.flex{display:flex}
+.flex-wrap{flex-wrap:wrap}
+.items-center{align-items:center}
+.gap-3{gap:12px}
 
 /* ---------- layout + type ---------- */
 .wrap{max-width:1620px;margin:0 auto;padding-left:var(--gut);padding-right:var(--gut)}
@@ -479,6 +477,13 @@ body.nav-open{overflow:hidden}
 .pstep:hover{transform:translateY(-5px);border-color:rgba(239,127,61,.42)}
 .pstep-bar{position:absolute;left:0;right:0;top:0;height:2px;background:rgba(255,255,255,.1)}
 .pstep-bar i{display:block;height:100%;background:var(--accentd)}
+/* progress across the six steps, was w-1/6 … w-full utility classes */
+.pgrid .pstep:nth-child(1) .pstep-bar i{width:16.667%}
+.pgrid .pstep:nth-child(2) .pstep-bar i{width:33.333%}
+.pgrid .pstep:nth-child(3) .pstep-bar i{width:50%}
+.pgrid .pstep:nth-child(4) .pstep-bar i{width:66.667%}
+.pgrid .pstep:nth-child(5) .pstep-bar i{width:83.333%}
+.pgrid .pstep:nth-child(6) .pstep-bar i{width:100%}
 .pstep-ghost{
   position:absolute;right:-16px;bottom:-30px;font-family:'Onest',sans-serif;font-weight:800;
   font-size:132px;line-height:1;letter-spacing:-.06em;color:transparent;
@@ -626,6 +631,192 @@ a.cline:hover .cval{color:var(--accent)}
   html{scroll-behavior:auto}
 }
 </style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@graph": [
+  {
+   "@type": "Organization",
+   "@id": "https://automatonpower.com.ua/#organization",
+   "name": "Automaton Power",
+   "alternateName": "Автоматон Пауер",
+   "url": "https://automatonpower.com.ua/",
+   "logo": {
+    "@type": "ImageObject",
+    "url": "https://automatonpower.com.ua/images/favicon-512.png",
+    "width": 512,
+    "height": 512
+   },
+   "image": "https://automatonpower.com.ua/images/hero-21700.jpg",
+   "description": "Контрактне виробництво літієвих акумуляторних збірок для FPV-дронів, БПЛА, систем РЕБ та роботизованих комплексів. Виробництво з елементів замовника, серії від 100 шт., до 500+ акумуляторів на день.",
+   "foundingDate": "2023",
+   "email": "sales@automatonpower.com.ua",
+   "telephone": "+380960562868",
+   "address": {
+    "@type": "PostalAddress",
+    "addressCountry": "UA"
+   },
+   "areaServed": {
+    "@type": "Country",
+    "name": "Україна"
+   },
+   "knowsLanguage": [
+    "uk"
+   ],
+   "contactPoint": [
+    {
+     "@type": "ContactPoint",
+     "telephone": "+380960562868",
+     "contactType": "sales",
+     "availableLanguage": [
+      "uk"
+     ],
+     "areaServed": "UA"
+    },
+    {
+     "@type": "ContactPoint",
+     "telephone": "+380677198474",
+     "contactType": "sales",
+     "availableLanguage": [
+      "uk"
+     ],
+     "areaServed": "UA"
+    },
+    {
+     "@type": "ContactPoint",
+     "email": "sales@automatonpower.com.ua",
+     "contactType": "customer support",
+     "availableLanguage": [
+      "uk"
+     ]
+    }
+   ],
+   "makesOffer": {
+    "@type": "Offer",
+    "itemOffered": {
+     "@type": "Service",
+     "name": "Контрактне виробництво акумуляторних збірок",
+     "serviceType": "Contract battery pack manufacturing",
+     "provider": {
+      "@id": "https://automatonpower.com.ua/#organization"
+     },
+     "areaServed": {
+      "@type": "Country",
+      "name": "Україна"
+     }
+    },
+    "eligibleQuantity": {
+     "@type": "QuantitativeValue",
+     "minValue": 100,
+     "unitText": "шт."
+    }
+   }
+  },
+  {
+   "@type": "WebSite",
+   "@id": "https://automatonpower.com.ua/#website",
+   "url": "https://automatonpower.com.ua/",
+   "name": "Automaton Power",
+   "inLanguage": "uk",
+   "publisher": {
+    "@id": "https://automatonpower.com.ua/#organization"
+   }
+  },
+  {
+   "@type": "WebPage",
+   "@id": "https://automatonpower.com.ua/#webpage",
+   "url": "https://automatonpower.com.ua/",
+   "name": "Automaton Power — контрактне виробництво акумуляторів",
+   "isPartOf": {
+    "@id": "https://automatonpower.com.ua/#website"
+   },
+   "about": {
+    "@id": "https://automatonpower.com.ua/#organization"
+   },
+   "inLanguage": "uk"
+  },
+  {
+   "@type": "FAQPage",
+   "@id": "https://automatonpower.com.ua/#faq",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "Чи можемо ми працювати з елементами замовника?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Так. Основний формат — контрактне виробництво з сировини та комплектуючих замовника. Ви передаєте власні елементи живлення, а ми виконуємо вхідний контроль, точкове зварювання, пайку, складання, балансування, тестування та пакування готових збірок."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Який мінімальний обсяг замовлення?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Основний формат роботи — серійні B2B-замовлення від 100 акумуляторів. Перед запуском серії можемо виготовити дослідний зразок або тестову партію для перевірки конструкції та погодження характеристик. Мінімальна кількість залежить від складності виробу, конфігурації, комплектуючих і необхідності розроблення нової конструкції."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Які обсяги ви виробляєте?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Працюємо від інженерних зразків і малих передсерійних партій до регулярного серійного випуску. Поточна виробнича спроможність — до 500+ акумуляторів на день."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Чи можете виготовити кастомну батарею?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Так. Узгоджуємо електричну конфігурацію, геометрію, тип елементів, проводи, конектори, захист і вимоги до пакування. За потреби допомагаємо із закупівлею елементів, розробленням конструкції, виготовленням зразка й подальшим запуском серії."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Як ви контролюєте якість?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "На виробництві є власне обладнання та процеси для вхідного й фінального контролю. Перевіряються параметри елементів і готових збірок, якість зварних та паяних з’єднань, правильність монтажу, напруга, внутрішній опір і робота виробу під навантаженням відповідно до технічного завдання. Партії комплектуючих не змішуються та залишаються простежуваними."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "Які терміни виробництва?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Термін залежить від конфігурації, наявності комплектуючих та обсягу партії. Після отримання ТЗ ми надаємо прорахунок і реалістичний виробничий графік."
+     }
+    }
+   ]
+  },
+  {
+   "@type": "ItemList",
+   "@id": "https://automatonpower.com.ua/#directions",
+   "name": "Напрями виробництва",
+   "itemListElement": [
+    {
+     "@type": "ListItem",
+     "position": 1,
+     "name": "Акумуляторні збірки на елементах 21700",
+     "url": "https://automatonpower.com.ua/21700.html"
+    },
+    {
+     "@type": "ListItem",
+     "position": 2,
+     "name": "Акумулятори високої питомої енергії",
+     "url": "https://automatonpower.com.ua/high-density.html"
+    },
+    {
+     "@type": "ListItem",
+     "position": 3,
+     "name": "Акумуляторні пакети для електротранспорту",
+     "url": "https://automatonpower.com.ua/ev-packs.html"
+    }
+   ]
+  }
+ ]
+}
+</script>
 </head>
 <body>
 
@@ -783,9 +974,9 @@ a.cline:hover .cval{color:var(--accent)}
 
       <div class="hero-media">
         <span class="hero-chip" id="heroChip">21700 · LI-ION · 3S–20S</span>
-        <img class="hero-shot is-active" data-slide="0" src="images/hero-21700.jpg" alt="Акумуляторна збірка на елементах 21700 з мідними та нікелевими шинами">
-        <img class="hero-shot" data-slide="1" src="images/hero-hd.jpg" alt="Високощільна акумуляторна збірка з pouch-елементів">
-        <img class="hero-shot" data-slide="2" src="images/hero-ev.jpg" alt="Акумуляторний пакет для електротранспорту в термоусадці">
+        <img fetchpriority="high" decoding="async" width="1562" height="1172" class="hero-shot is-active" data-slide="0" src="images/hero-21700.jpg" alt="Акумуляторна збірка на елементах 21700 з мідними та нікелевими шинами">
+        <img decoding="async" width="1195" height="896" class="hero-shot" data-slide="1" src="images/hero-hd.jpg" alt="Високощільна акумуляторна збірка з pouch-елементів">
+        <img decoding="async" width="1200" height="896" class="hero-shot" data-slide="2" src="images/hero-ev.jpg" alt="Акумуляторний пакет для електротранспорту в термоусадці">
       </div>
 
       <div class="hero-tabs" role="tablist" aria-label="Типи акумуляторів">
@@ -833,7 +1024,7 @@ a.cline:hover .cval{color:var(--accent)}
       <a href="21700.html" class="tcard reveal d1">
         <div class="tcard-img">
           <span class="tcard-tag">21700</span>
-          <img src="images/type-21700.jpg" alt="Збірка з циліндричних елементів 21700 з нікелевими шинами">
+          <img loading="lazy" decoding="async" width="1195" height="896" src="images/type-21700.jpg" alt="Збірка з циліндричних елементів 21700 з нікелевими шинами">
         </div>
         <div class="tcard-b">
           <p class="mono-n">01</p>
@@ -857,7 +1048,7 @@ a.cline:hover .cval{color:var(--accent)}
       <a href="high-density.html" class="tcard reveal d2">
         <div class="tcard-img">
           <span class="tcard-tag">HIGH DENSITY</span>
-          <img src="images/type-hd.jpg" alt="Високощільна акумуляторна збірка з pouch-елементів">
+          <img loading="lazy" decoding="async" width="1195" height="896" src="images/type-hd.jpg" alt="Високощільна акумуляторна збірка з pouch-елементів">
         </div>
         <div class="tcard-b">
           <p class="mono-n">02</p>
@@ -881,7 +1072,7 @@ a.cline:hover .cval{color:var(--accent)}
       <a href="ev-packs.html" class="tcard reveal d3">
         <div class="tcard-img">
           <span class="tcard-tag">EV PACKS</span>
-          <img src="images/type-ev.jpg" alt="Акумуляторний пакет для електротранспорту в термоусадці">
+          <img loading="lazy" decoding="async" width="1195" height="896" src="images/type-ev.jpg" alt="Акумуляторний пакет для електротранспорту в термоусадці">
         </div>
         <div class="tcard-b">
           <p class="mono-n">03</p>
@@ -1023,10 +1214,10 @@ a.cline:hover .cval{color:var(--accent)}
       </div>
 
       <div class="mgrid reveal d2">
-        <figure class="mcard"><img src="images/about.jpg" alt="Точкове зварювання нікелевих шин на елементах 21700"><figcaption>Власне виробництво</figcaption></figure>
-        <figure class="mcard"><img src="images/g3.jpg" alt="Готова акумуляторна збірка в термоусадці"><figcaption>Вхідний контроль</figcaption></figure>
-        <figure class="mcard"><img src="images/g5.jpg" alt="Акумуляторна збірка з роз’ємом XT"><figcaption>Фінальне тестування</figcaption></figure>
-        <figure class="mcard"><img src="images/g6.jpg" alt="Компактна збірка на елементах 21700"><figcaption>Простежуваність партій</figcaption></figure>
+        <figure class="mcard"><img loading="lazy" decoding="async" width="1195" height="896" src="images/about.jpg" alt="Точкове зварювання нікелевих шин на елементах 21700"><figcaption>Власне виробництво</figcaption></figure>
+        <figure class="mcard"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g3.jpg" alt="Готова акумуляторна збірка в термоусадці"><figcaption>Вхідний контроль</figcaption></figure>
+        <figure class="mcard"><img loading="lazy" decoding="async" width="1200" height="896" src="images/g5.jpg" alt="Акумуляторна збірка з роз’ємом XT"><figcaption>Фінальне тестування</figcaption></figure>
+        <figure class="mcard"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g6.jpg" alt="Компактна збірка на елементах 21700"><figcaption>Простежуваність партій</figcaption></figure>
       </div>
     </div>
 
@@ -1062,7 +1253,7 @@ a.cline:hover .cval{color:var(--accent)}
       <article class="wcard reveal d1">
         <div class="wcard-img">
           <span class="wcard-no">01</span>
-          <img src="images/b1.jpg" alt="Широка збірка з елементів 21700 із привареними нікелевими шинами">
+          <img loading="lazy" decoding="async" width="1376" height="768" src="images/b1.jpg" alt="Широка збірка з елементів 21700 із привареними нікелевими шинами">
         </div>
         <div class="wcard-t">
           <h3 class="h3">Масштабування без капітальних витрат</h3>
@@ -1073,7 +1264,7 @@ a.cline:hover .cval{color:var(--accent)}
       <article class="wcard reveal d2">
         <div class="wcard-img">
           <span class="wcard-no">02</span>
-          <img src="images/b2.jpg" alt="Стос pouch-елементів у срібній фользі з силовими виводами">
+          <img loading="lazy" decoding="async" width="1195" height="896" src="images/b2.jpg" alt="Стос pouch-елементів у срібній фользі з силовими виводами">
         </div>
         <div class="wcard-t">
           <h3 class="h3">Елементи замовника — без обмежень</h3>
@@ -1084,7 +1275,7 @@ a.cline:hover .cval{color:var(--accent)}
       <article class="wcard reveal d3">
         <div class="wcard-img">
           <span class="wcard-no">03</span>
-          <img src="images/b3.jpg" alt="Зважування готової акумуляторної збірки на цифрових вагах">
+          <img loading="lazy" decoding="async" width="1195" height="896" src="images/b3.jpg" alt="Зважування готової акумуляторної збірки на цифрових вагах">
         </div>
         <div class="wcard-t">
           <h3 class="h3">Контроль кожної партії</h3>
@@ -1095,7 +1286,7 @@ a.cline:hover .cval{color:var(--accent)}
       <article class="wcard reveal d4">
         <div class="wcard-img">
           <span class="wcard-no">04</span>
-          <img src="images/b4.jpg" alt="Компактна вертикальна акумуляторна збірка в синій термоусадці">
+          <img loading="lazy" decoding="async" width="1200" height="896" src="images/b4.jpg" alt="Компактна вертикальна акумуляторна збірка в синій термоусадці">
         </div>
         <div class="wcard-t">
           <h3 class="h3">Швидкий запуск нових конфігурацій</h3>
@@ -1106,7 +1297,7 @@ a.cline:hover .cval{color:var(--accent)}
       <article class="wcard reveal d5">
         <div class="wcard-img">
           <span class="wcard-no">05</span>
-          <img src="images/b5.jpg" alt="Акумуляторна збірка з відкритим рядом елементів 21700">
+          <img loading="lazy" decoding="async" width="1376" height="768" src="images/b5.jpg" alt="Акумуляторна збірка з відкритим рядом елементів 21700">
         </div>
         <div class="wcard-t">
           <h3 class="h3">Серійне виробництво великих партій</h3>
@@ -1117,7 +1308,7 @@ a.cline:hover .cval{color:var(--accent)}
       <article class="wcard reveal d6">
         <div class="wcard-img">
           <span class="wcard-no">06</span>
-          <img src="images/b6.jpg" alt="Акумуляторна збірка з силовими проводами та балансувальним шлейфом">
+          <img loading="lazy" decoding="async" width="1195" height="896" src="images/b6.jpg" alt="Акумуляторна збірка з силовими проводами та балансувальним шлейфом">
         </div>
         <div class="wcard-t">
           <h3 class="h3">Менше навантаження на вашу команду</h3>
@@ -1144,42 +1335,42 @@ a.cline:hover .cval{color:var(--accent)}
 
     <div class="pgrid mt-6 reveal d2">
       <article class="pstep">
-        <div class="pstep-bar"><i class="w-1/6"></i></div>
+        <div class="pstep-bar"><i></i></div>
         <span class="pstep-ghost">01</span>
         <span class="pstep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(0 -0.001) scale(1)" stroke-width="1.399"><g transform="translate(0.395 0.632) scale(0.947)" stroke-width="1.478"><g transform="translate(0.395 0.632) scale(0.947)" stroke-width="1.478"><path d="M6.5 2.5h7L18 7v14.5H6.5z"/><path d="M13.5 2.5V7H18"/><path d="M9.5 12h5M9.5 15.5h5M9.5 19h3"/></g></g></g></svg></span>
         <h3 class="h3 mt-3"><span class="sr-only">Етап 01. </span>Запит або ТЗ</h3>
         <p class="body-s mt-2">Отримуємо вашу специфікацію, зразок чи опис задачі та уточнюємо вимоги до виробу.</p>
       </article>
       <article class="pstep">
-        <div class="pstep-bar"><i class="w-2/6"></i></div>
+        <div class="pstep-bar"><i></i></div>
         <span class="pstep-ghost">02</span>
         <span class="pstep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-0.001 -0.001) scale(1)" stroke-width="1.399"><g transform="translate(0.632 0.632) scale(0.947)" stroke-width="1.478"><g transform="translate(0.632 0.632) scale(0.947)" stroke-width="1.478"><rect x="4.5" y="2.5" width="15" height="19" rx="1.6"/><path d="M8 6.5h8"/><path d="M8.5 11h.01M12 11h.01M15.5 11h.01M8.5 14.5h.01M12 14.5h.01M15.5 14.5h.01"/><path d="M8.5 18h7"/></g></g></g></svg></span>
         <h3 class="h3 mt-3"><span class="sr-only">Етап 02. </span>Прорахунок</h3>
         <p class="body-s mt-2">Узгоджуємо комплектуючі, обсяг, ціну та реалістичний виробничий графік.</p>
       </article>
       <article class="pstep">
-        <div class="pstep-bar"><i class="w-3/6"></i></div>
+        <div class="pstep-bar"><i></i></div>
         <span class="pstep-ghost">03</span>
         <span class="pstep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-0.001 -0.001) scale(1)" stroke-width="1.399"><g transform="translate(0.632 0.632) scale(0.947)" stroke-width="1.478"><g transform="translate(0.632 0.632) scale(0.947)" stroke-width="1.478"><rect x="8" y="4.5" width="8" height="17" rx="1.6"/><path d="M10 2.5h4"/><path d="M8 9.5h8"/></g></g></g></svg></span>
         <h3 class="h3 mt-3"><span class="sr-only">Етап 03. </span>Зразки</h3>
         <p class="body-s mt-2">Виготовляємо дослідний зразок або тестову партію для перевірки конструкції.</p>
       </article>
       <article class="pstep">
-        <div class="pstep-bar"><i class="w-4/6"></i></div>
+        <div class="pstep-bar"><i></i></div>
         <span class="pstep-ghost">04</span>
         <span class="pstep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-0.001 0) scale(1)" stroke-width="1.399"><g transform="translate(0.632 0.395) scale(0.947)" stroke-width="1.478"><g transform="translate(0.632 0.395) scale(0.947)" stroke-width="1.478"><path d="M2.5 18a9.5 9.5 0 0 1 19 0"/><path d="M12 18l5-5.5"/><path d="M12 18h.01"/><path d="M2.5 18h2M19.5 18h2M12 8.5v-2"/></g></g></g></svg></span>
         <h3 class="h3 mt-3"><span class="sr-only">Етап 04. </span>Тестування</h3>
         <p class="body-s mt-2">Підтверджуємо параметри під навантаженням і фіксуємо фінальну конфігурацію.</p>
       </article>
       <article class="pstep">
-        <div class="pstep-bar"><i class="w-5/6"></i></div>
+        <div class="pstep-bar"><i></i></div>
         <span class="pstep-ghost">05</span>
         <span class="pstep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-0.001 -0.001) scale(1)" stroke-width="1.399"><g transform="translate(0.632 1.579) scale(0.947)" stroke-width="1.478"><g transform="translate(0.632 1.579) scale(0.947)" stroke-width="1.478"><rect x="2.5" y="7.5" width="5.6" height="9" rx="1.2"/><rect x="9.2" y="7.5" width="5.6" height="9" rx="1.2"/><rect x="15.9" y="7.5" width="5.6" height="9" rx="1.2"/><path d="M4 5.5h3M10.7 5.5h3M17.4 5.5h3"/></g></g></g></svg></span>
         <h3 class="h3 mt-3"><span class="sr-only">Етап 05. </span>Серія</h3>
         <p class="body-s mt-2">Запускаємо погоджений обсяг у виробничий цикл із контролем кожної партії.</p>
       </article>
       <article class="pstep">
-        <div class="pstep-bar"><i class="w-full"></i></div>
+        <div class="pstep-bar"><i></i></div>
         <span class="pstep-ghost">06</span>
         <span class="pstep-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><g transform="translate(-0.001 -0.001) scale(1)" stroke-width="1.399"><g transform="translate(0.632 0.632) scale(0.947)" stroke-width="1.478"><g transform="translate(0.632 0.632) scale(0.947)" stroke-width="1.478"><path d="M12 2.5 21 7v10l-9 4.5L3 17V7z"/><path d="M3 7l9 4.5 9-4.5"/><path d="M12 11.5V21.5"/></g></g></g></svg></span>
         <h3 class="h3 mt-3"><span class="sr-only">Етап 06. </span>Поставки</h3>
@@ -1205,7 +1396,7 @@ a.cline:hover .cval{color:var(--accent)}
 <section class="sec-tight sec-ink">
   <div class="wrap">
     <div class="ctabig reveal">
-      <img src="images/cta-wide.jpg" alt="Акумуляторна збірка Automaton Power у виробничому освітленні">
+      <img loading="lazy" decoding="async" width="1376" height="768" src="images/cta-wide.jpg" alt="Акумуляторна збірка Automaton Power у виробничому освітленні">
       <div class="ctabig-b">
         <p class="eyebrow">Наші можливості</p>
         <h2 class="h2 mt-3">Готові до вашого темпу виробництва</h2>
@@ -1246,14 +1437,14 @@ a.cline:hover .cval{color:var(--accent)}
     </div>
 
     <div class="gal mt-6 reveal d2">
-      <figure class="gitem"><img src="images/type-21700.jpg" alt="Збірка з елементів 21700 з нікелевими шинами"><figcaption>21700 / Array</figcaption></figure>
-      <figure class="gitem"><img src="images/g1.jpg" alt="Пласка акумуляторна збірка в чорній термоусадці"><figcaption>Pack / Black</figcaption></figure>
-      <figure class="gitem"><img src="images/g2.jpg" alt="Пласка акумуляторна збірка в синій термоусадці"><figcaption>Pack / Blue</figcaption></figure>
-      <figure class="gitem"><img src="images/g4.jpg" alt="Pouch-акумулятор у золотистій оболонці"><figcaption>Pouch / High density</figcaption></figure>
-      <figure class="gitem"><img src="images/g3.jpg" alt="Об’ємна акумуляторна збірка в чорній термоусадці"><figcaption>Module / Shrink</figcaption></figure>
-      <figure class="gitem"><img src="images/about.jpg" alt="Крупний план зварних з’єднань акумуляторної збірки"><figcaption>Spot weld / Detail</figcaption></figure>
-      <figure class="gitem"><img src="images/g5.jpg" alt="Акумуляторна збірка з роз’ємом XT та балансувальним виводом"><figcaption>Connectors / XT</figcaption></figure>
-      <figure class="gitem"><img src="images/type-ev.jpg" alt="Акумуляторний пакет у синій термоусадці"><figcaption>EV / Module</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/type-21700.jpg" alt="Збірка з елементів 21700 з нікелевими шинами"><figcaption>21700 / Array</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g1.jpg" alt="Пласка акумуляторна збірка в чорній термоусадці"><figcaption>Pack / Black</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g2.jpg" alt="Пласка акумуляторна збірка в синій термоусадці"><figcaption>Pack / Blue</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g4.jpg" alt="Pouch-акумулятор у золотистій оболонці"><figcaption>Pouch / High density</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g3.jpg" alt="Об’ємна акумуляторна збірка в чорній термоусадці"><figcaption>Module / Shrink</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/about.jpg" alt="Крупний план зварних з’єднань акумуляторної збірки"><figcaption>Spot weld / Detail</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1200" height="896" src="images/g5.jpg" alt="Акумуляторна збірка з роз’ємом XT та балансувальним виводом"><figcaption>Connectors / XT</figcaption></figure>
+      <figure class="gitem"><img loading="lazy" decoding="async" width="1195" height="896" src="images/type-ev.jpg" alt="Акумуляторний пакет у синій термоусадці"><figcaption>EV / Module</figcaption></figure>
     </div>
   </div>
 </section>
