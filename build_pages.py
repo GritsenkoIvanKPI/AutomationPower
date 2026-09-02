@@ -12,7 +12,13 @@ Run:  python3 build_pages.py
 import re, html
 
 SRC = "index.html"
-shared_css = re.search(r"<style>(.*?)</style>", open(SRC, encoding="utf-8").read(), re.S).group(1)
+_home = open(SRC, encoding="utf-8").read()
+shared_css = re.search(r"<style>(.*?)</style>", _home, re.S).group(1)
+
+# The quote form behaves identically on every page, so lift the handler out of the home
+# page rather than keeping a second copy here — same reasoning as shared_css above.
+form_js = re.search(r"(/\* =+\n   quote form -> send-form\.php.*?^\}\)\(\);)",
+                    _home, re.S | re.M).group(1)
 
 # ---------------------------------------------------------------- page-only block styles
 PAGE_CSS = r"""
@@ -587,13 +593,7 @@ document.querySelectorAll('.pfaq details').forEach(d => {
   });
 });
 
-document.getElementById('quote').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = e.target;
-  if (!f.checkValidity()) { f.reportValidity(); return; }
-  document.getElementById('formmsg').classList.add('show');
-  f.reset();
-});
+__FORM_JS__
 </script>"""
 
 
@@ -857,29 +857,41 @@ def build(key):
           менеджеру Automaton Power.</p>
       </div>
 
-      <form id="quote" novalidate>
+      <form id="quote" action="send-form.php" method="post" novalidate>
         <div class="fgrid">
-          <label class="field"><span>Ім’я *</span><input type="text" name="name" required placeholder="Як до вас звертатися"></label>
-          <label class="field"><span>Телефон *</span><input type="tel" name="phone" required placeholder="+380 __ ___ __ __"></label>
-          <label class="field"><span>Email *</span><input type="email" name="email" required placeholder="you@company.com"></label>
+          <label class="field"><span>Ім’я *</span><input id="f-name" type="text" name="name" required autocomplete="name" placeholder="Як до вас звертатися"></label>
+          <label class="field"><span>Телефон *</span><input id="f-phone" type="tel" name="phone" required autocomplete="tel" placeholder="+380 __ ___ __ __"></label>
+          <label class="field"><span>Email *</span><input id="f-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com"></label>
           <label class="field"><span>Тип виробу</span>
-            <select name="type">
-              <option{" selected" if key == "21700" else ""}>Елементи 21700</option>
-              <option{" selected" if key == "hd" else ""}>Акумулятори високої щільності</option>
-              <option{" selected" if key == "ev" else ""}>Пакети для електротранспорту</option>
-              <option>Інше / потрібна консультація</option>
+            <select id="f-type" name="type">
+              <option value="t21700"{" selected" if key == "21700" else ""}>Елементи 21700</option>
+              <option value="hd"{" selected" if key == "hd" else ""}>Акумулятори високої щільності</option>
+              <option value="ev"{" selected" if key == "ev" else ""}>Пакети для електротранспорту</option>
+              <option value="other">Інше / потрібна консультація</option>
             </select>
           </label>
           <label class="field fspan"><span>Коментар або ТЗ</span>
-            <textarea name="comment" placeholder="Конфігурація, елементи, геометрія, конектори, строки"></textarea></label>
+            <textarea id="f-comment" name="comment" placeholder="Конфігурація, елементи, геометрія, конектори, строки"></textarea></label>
         </div>
+
+        <div class="form-trap" aria-hidden="true">
+          <label for="f-website">Не заповнюйте це поле</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <p class="form-error" id="formError" role="alert"></p>
+
         <div class="fsubmit">
-          <button type="submit" class="btn btn-primary">Надіслати заявку {ARW}</button>
+          <button type="submit" class="btn btn-primary" id="quoteSubmit">
+            <span class="btn-label">Надіслати заявку</span>
+            <svg class="arw" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.4"/></svg>
+          </button>
           <p class="micro mw-44">Надсилаючи форму, ви погоджуєтесь на обробку контактних даних
             для підготовки прорахунку.</p>
         </div>
-        <p class="body-s fmsg" id="formmsg">Дякуємо. Заявку надіслано — менеджер зв’яжеться з вами найближчим часом.</p>
       </form>
+      <p class="body-s fmsg" id="formmsg" role="status">Дякуємо. Заявку надіслано — менеджер зв’яжеться з вами найближчим часом.</p>
     </div>
   </div>
 </section>
@@ -920,7 +932,7 @@ def build(key):
 
 {FOOTER}
 
-{SCRIPT}
+{SCRIPT.replace('__FORM_JS__', form_js)}
 </body>
 </html>
 """

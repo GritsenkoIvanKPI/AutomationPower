@@ -11,3 +11,6 @@ temporary screenshots/
 .venv-bg/
 rebuild_progress.log
 rebuild_errors.log
+
+# Telegram bot token — must never be committed
+config.php

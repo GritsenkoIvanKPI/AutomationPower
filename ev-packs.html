@@ -221,6 +221,7 @@
   --bone:#FFFFFF;
   --accent:#EF7F3D; --accentd:#EF7F3D;
   --muted:rgba(255,255,255,.34);
+  --err:#F2564A;
   --line-d:rgba(255,255,255,.11);
   --line-l:rgba(255,255,255,.10);
   --txt-d:rgba(255,255,255,.62);
@@ -787,6 +788,14 @@ body.nav-open{overflow:hidden}
 @media(min-width:640px){.fsubmit{flex-direction:row;align-items:center}}
 .fmsg{margin-top:18px;color:var(--accent);display:none}
 .fmsg.show{display:block}
+/* off-screen rather than display:none — bots fill what they can parse, and a
+   display:none field is an obvious tell */
+.form-trap{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
+.field.is-invalid input,.field.is-invalid textarea,.field.is-invalid select{border-bottom-color:var(--err)}
+.form-error{margin:18px 0 0;font-size:13.5px;line-height:1.6;color:var(--err);display:none}
+.form-error.show{display:block}
+.form-error a{color:var(--err)}
+.btn[data-busy]{opacity:.6;pointer-events:none}
 
 /* ---------- contacts / footer ---------- */
 .cline{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 0;
@@ -1327,29 +1336,41 @@ a.cline:hover .cval{color:var(--accent)}
           менеджеру Automaton Power.</p>
       </div>
 
-      <form id="quote" novalidate>
+      <form id="quote" action="send-form.php" method="post" novalidate>
         <div class="fgrid">
-          <label class="field"><span>Ім’я *</span><input type="text" name="name" required placeholder="Як до вас звертатися"></label>
-          <label class="field"><span>Телефон *</span><input type="tel" name="phone" required placeholder="+380 __ ___ __ __"></label>
-          <label class="field"><span>Email *</span><input type="email" name="email" required placeholder="you@company.com"></label>
+          <label class="field"><span>Ім’я *</span><input id="f-name" type="text" name="name" required autocomplete="name" placeholder="Як до вас звертатися"></label>
+          <label class="field"><span>Телефон *</span><input id="f-phone" type="tel" name="phone" required autocomplete="tel" placeholder="+380 __ ___ __ __"></label>
+          <label class="field"><span>Email *</span><input id="f-email" type="email" name="email" required autocomplete="email" placeholder="you@company.com"></label>
           <label class="field"><span>Тип виробу</span>
-            <select name="type">
-              <option>Елементи 21700</option>
-              <option>Акумулятори високої щільності</option>
-              <option selected>Пакети для електротранспорту</option>
-              <option>Інше / потрібна консультація</option>
+            <select id="f-type" name="type">
+              <option value="t21700">Елементи 21700</option>
+              <option value="hd">Акумулятори високої щільності</option>
+              <option value="ev" selected>Пакети для електротранспорту</option>
+              <option value="other">Інше / потрібна консультація</option>
             </select>
           </label>
           <label class="field fspan"><span>Коментар або ТЗ</span>
-            <textarea name="comment" placeholder="Конфігурація, елементи, геометрія, конектори, строки"></textarea></label>
+            <textarea id="f-comment" name="comment" placeholder="Конфігурація, елементи, геометрія, конектори, строки"></textarea></label>
         </div>
+
+        <div class="form-trap" aria-hidden="true">
+          <label for="f-website">Не заповнюйте це поле</label>
+          <input id="f-website" name="website" type="text" tabindex="-1" autocomplete="off">
+        </div>
+
+        <p class="form-error" id="formError" role="alert"></p>
+
         <div class="fsubmit">
-          <button type="submit" class="btn btn-primary">Надіслати заявку <svg class="arw" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.4"/></svg></button>
+          <button type="submit" class="btn btn-primary" id="quoteSubmit">
+            <span class="btn-label">Надіслати заявку</span>
+            <svg class="arw" width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+              <path d="M2 10 10 2M4 2h6v6" stroke="currentColor" stroke-width="1.4"/></svg>
+          </button>
           <p class="micro mw-44">Надсилаючи форму, ви погоджуєтесь на обробку контактних даних
             для підготовки прорахунку.</p>
         </div>
-        <p class="body-s fmsg" id="formmsg">Дякуємо. Заявку надіслано — менеджер зв’яжеться з вами найближчим часом.</p>
       </form>
+      <p class="body-s fmsg" id="formmsg" role="status">Дякуємо. Заявку надіслано — менеджер зв’яжеться з вами найближчим часом.</p>
     </div>
   </div>
 </section>
@@ -1482,13 +1503,99 @@ document.querySelectorAll('.pfaq details').forEach(d => {
   });
 });
 
-document.getElementById('quote').addEventListener('submit', e => {
-  e.preventDefault();
-  const f = e.target;
-  if (!f.checkValidity()) { f.reportValidity(); return; }
-  document.getElementById('formmsg').classList.add('show');
-  f.reset();
-});
+/* ============================================================
+   quote form -> send-form.php -> Telegram
+   The endpoint answers {ok:true} or {ok:false, error:'…'}; the bot token
+   never leaves the server, so the page only ever sees an error code.
+   ============================================================ */
+(() => {
+  const form = document.getElementById('quote');
+  if (!form) return;
+  const errBox = document.getElementById('formError');
+  const done   = document.getElementById('formmsg');
+  const btn    = document.getElementById('quoteSubmit');
+  const label  = btn.querySelector('.btn-label');
+  const idle   = label.textContent;
+
+  const CONTACT = ' Зателефонуйте <a href="tel:+380960562868">+380 96 056 28 68</a>' +
+                  ' або напишіть на <a href="mailto:sales@automatonpower.com.ua">sales@automatonpower.com.ua</a>.';
+  const MSG = {
+    sending:               'Надсилаємо…',
+    validation_failed:     'Перевірте, будь ласка, підсвічені поля.',
+    rate_limited:          'Ви щойно надіслали кілька заявок. Спробуйте за годину.' + CONTACT,
+    server_not_configured: 'Форма зараз недоступна.' + CONTACT,
+    delivery_failed:       'Не вдалося надіслати заявку.' + CONTACT,
+    server_error:          'Не вдалося надіслати заявку.' + CONTACT,
+    method_not_allowed:    'Не вдалося надіслати заявку.' + CONTACT,
+    network:               'Немає зв’язку із сервером. Перевірте інтернет і спробуйте ще раз.',
+  };
+  const FIELD_OF = { name: '#f-name', phone: '#f-phone', email: '#f-email' };
+
+  const clear = () => {
+    form.querySelectorAll('.field.is-invalid').forEach(f => f.classList.remove('is-invalid'));
+    errBox.classList.remove('show');
+    errBox.innerHTML = '';
+  };
+
+  const fail = (html, fields) => {
+    errBox.innerHTML = html;
+    errBox.classList.add('show');
+    let first = null;
+    Object.keys(fields || {}).forEach(k => {
+      const input = form.querySelector(FIELD_OF[k] || '');
+      if (input) { input.closest('.field').classList.add('is-invalid'); first = first || input; }
+    });
+    (first || errBox).scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if (first) first.focus({ preventScroll: true });
+  };
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clear();
+    const val = sel => (form.querySelector(sel).value || '').trim();
+
+    // Cheap client-side check so an obvious miss never costs a round trip.
+    // The server validates again — this is convenience, not security.
+    const quick = {};
+    if (val('#f-name').length < 2) quick.name = 'required';
+    if (val('#f-phone').replace(/\D+/g, '').length < 7) quick.phone = 'invalid';
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(val('#f-email'))) quick.email = 'invalid';
+    if (Object.keys(quick).length) { fail(MSG.validation_failed, quick); return; }
+
+    const data = {
+      name: val('#f-name'), phone: val('#f-phone'), email: val('#f-email'),
+      type: form.querySelector('#f-type').value,
+      comment: val('#f-comment'),
+      website: form.querySelector('#f-website').value,
+      page: location.pathname,
+    };
+
+    btn.setAttribute('data-busy', '');
+    label.textContent = MSG.sending;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      let payload = {};
+      try { payload = await res.json(); } catch (_) { /* keep the empty object */ }
+
+      if (res.ok && payload.ok) {
+        form.hidden = true;
+        done.classList.add('show');
+        done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
+      fail(MSG[payload.error] || MSG.delivery_failed, payload.fields);
+    } catch (_) {
+      fail(MSG.network);
+    } finally {
+      btn.removeAttribute('data-busy');
+      label.textContent = idle;
+    }
+  });
+})();
 </script>
 </body>
 </html>

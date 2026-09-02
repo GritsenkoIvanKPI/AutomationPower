@@ -316,6 +316,38 @@ than improving it.
 `.txt`, `.xml` and `.pdf` were falling through to `application/octet-stream`, so robots.txt
 and sitemap.xml were served as downloads. Fixed in the MIME map.
 
+## Forms → Telegram
+All four forms post to one `send-form.php`, which forwards to Telegram. Setup steps are in
+`TELEGRAM_SETUP.md`; the token lives in `config.php` (gitignored, never sent to the browser).
+
+    browser -> send-form.php -> api.telegram.org
+                     ^
+                config.php (bot_token, chat_id)
+
+Same structure as Петро Вікна / Богдан адвокат / DS motors, so it behaves the way the other
+sites already do. Calling Telegram from client JS was not an option — the token would be
+visible to every visitor, and whoever holds it controls the bot.
+
+- The submit handler is **lifted out of `index.html` at build time** (`form_js` in
+  `build_pages.py`, same mechanism as `shared_css`), so the product pages cannot drift.
+- Each product page preselects its own type; the label written into Telegram comes from a
+  **server-side dictionary**, so a crafted `type` value cannot inject text into the message.
+- Honeypot field `website` returns a fake success — a bot gets no signal to retry.
+- Per-IP rate limit, server-side revalidation, errors logged rather than echoed
+  (Telegram API errors can quote the request).
+- `api_base` config key (optional, defaults to `api.telegram.org`) allows a proxy where
+  Telegram is blocked, and is what makes the delivery path testable.
+
+**Requires PHP 7.4+ on the host.** The pages are static but this one script is not. On static
+hosting (GitHub Pages, Netlify without functions) it will not run — port it to a serverless
+function instead.
+
+Verified before shipping, against a real PHP 8.2 (Docker) and a mock Telegram API: syntax,
+selftest with and without config, 405 on GET, 422 with per-field flags, honeypot sending
+nothing, happy path delivering the right chat_id and server-side type label, type injection
+falling back to a dash, rate limit returning 429, plus a browser test submitting all four
+forms and confirming four messages arrived with the correct type each.
+
 ## Local tooling
 - `serve.mjs` now honours `PORT` (another project already occupies 3000): `PORT=3400 node serve.mjs`
 - `node_modules` is a symlink to `../DS motors/node_modules` for puppeteer — re-point or `npm i puppeteer` if it breaks.
