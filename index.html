@@ -50,7 +50,10 @@ body{
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 ::selection{background:var(--accent);color:#111111}
-img{display:block}
+/* height:auto so the intrinsic size from the width/height attributes never fixes the
+   rendered height — rules that want a definite height set it themselves and win on
+   specificity. Without this, `aspect-ratio` is ignored wherever CSS sets only width. */
+img{display:block;height:auto}
 .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
 
 /* No grain, no glow fields, no column grid — the background is a flat solid colour.

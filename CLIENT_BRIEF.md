@@ -305,6 +305,14 @@ that do not run JS. Those seven are now plain CSS (`.flex`, `.flex-wrap`, `.item
 `.gap-3`, and the six step-progress widths as `:nth-child` rules). Product pages load in ~83ms
 with no third-party JS. **Do not re-add Tailwind classes** — they will silently do nothing.
 
+### `img{height:auto}` is load-bearing
+Adding intrinsic `width`/`height` attributes made the About grid three times too tall. Those
+attributes act as presentational hints, so with author CSS setting only `width:100%` the height
+became **definite** (896px) and `aspect-ratio:1/1` was ignored. The base rule now carries
+`height:auto`; rules that genuinely want a fixed height (`height:100%` with `object-fit`) set it
+themselves and win on specificity. **Do not remove it** — any `aspect-ratio` image sized by width
+alone will stretch to its full intrinsic height again.
+
 ### Image loading priority
 `add_image_dims()` stamps intrinsic width/height (prevents layout shift) and sets priority by
 role: `images/hero-*` load eagerly with `fetchpriority="high"` because the hero photo is the
