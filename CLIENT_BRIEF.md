@@ -356,6 +356,16 @@ nothing, happy path delivering the right chat_id and server-side type label, typ
 falling back to a dash, rate limit returning 429, plus a browser test submitting all four
 forms and confirming four messages arrived with the correct type each.
 
+### Deploy: `python3 build_deploy.py` verifies, never trust a silent copy
+The first version was a shell script that read the asset list with `while read`. That drops
+the **last line** of a file with no trailing newline — it shipped a `deploy/` missing exactly
+one image (`images/type-hd.jpg`, last alphabetically) and reported success. The site went live
+with a broken image.
+
+`build_deploy.py` now derives the list from the pages itself (including absolute self-URLs in
+Open Graph tags and JSON-LD, which a plain `src`/`href` scan misses) and **exits non-zero if
+anything referenced is not in `deploy/`**. Do not replace it with a copy loop that cannot fail.
+
 ## Local tooling
 - `serve.mjs` now honours `PORT` (another project already occupies 3000): `PORT=3400 node serve.mjs`
 - `node_modules` is a symlink to `../DS motors/node_modules` for puppeteer — re-point or `npm i puppeteer` if it breaks.

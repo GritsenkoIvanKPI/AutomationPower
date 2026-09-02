@@ -6,14 +6,14 @@
 2. Створити там **`config.php`** з токеном бота — його немає в `deploy/` навмисно.
 3. Перевірити `https://automatonpower.com.ua/send-form.php?selftest=1`.
 
-Теку `deploy/` збирає `bash build_deploy.sh` — у ній рівно те, що потрібно сайту,
+Теку `deploy/` збирає `python3 build_deploy.py` — у ній рівно те, що потрібно сайту,
 без вихідних фото й службових скриптів.
 
 ---
 
 ## 1. Завантажити
 
-Вміст `deploy/` (48 файлів, ~16 МБ) — саме **вміст**, не саму теку:
+Вміст `deploy/` (49 файлів, ~16 МБ) — саме **вміст**, не саму теку:
 
 ```
 public_html/
@@ -111,7 +111,7 @@ AddType text/plain .txt
 ```bash
 python3 build_pages.py      # 21700 / high-density / ev-packs
 python3 build_seo.py        # мета, JSON-LD, robots, sitemap, розміри картинок
-bash build_deploy.sh        # збирає deploy/
+python3 build_deploy.py     # збирає deploy/ і перевіряє повноту
 ```
 
 Далі завантажити вміст `deploy/`. `config.php` на сервері не чіпати — він там уже є.
