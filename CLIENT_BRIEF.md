@@ -14,7 +14,12 @@ Site language: **Ukrainian**. Existing site: https://automatonpower.com.ua/ (bei
 - History: project formed around **2023**, starting with battery modules for electric transport and power systems; moved on to development and serial manufacture of assemblies for EW (РЕБ) systems, FPV drones, UAVs and other specialised equipment.
 - Own equipment and processes for **incoming and final QC**: cell and assembly parameters, weld and solder joint quality, assembly correctness, voltage, internal resistance, load testing per spec.
 - **No external certificates / patents.** Describe the internal QC system, inspection protocols, batch traceability, multi-stage control instead.
-- MOQ: serial B2B orders **from 100 batteries**; a pilot sample or test batch can be produced first. Exact minimum depends on complexity, configuration, components and whether new design work is needed.
+- MOQ: **the 100-unit figure must NOT appear on the site** — the client asked for it to be removed
+  everywhere (2026-09-03). The brief originally said serial B2B orders from 100 batteries; the site now
+  says only that volume is agreed per order and depends on complexity, configuration, components and
+  whether new design work is needed. A pilot sample or test batch can be produced first.
+  Removed from: page copy, the About stat row, the FAQ answer, spec tables, hero key figures,
+  meta descriptions, `llms.txt`, and `eligibleQuantity` in the Organization and Product JSON-LD.
 - Testimonials: anonymous only, no client names, no sensitive specs.
 - Capacity claim carried over from the live site: **up to 500+ batteries / day**.
 
