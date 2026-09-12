@@ -179,7 +179,8 @@ PAGE_CSS = r"""
 
 /* ---------- contacts: three cards ---------- */
 .pcont{display:grid;grid-template-columns:1fr;gap:clamp(14px,1.4vw,20px)}
-@media(min-width:700px){.pcont{grid-template-columns:repeat(3,1fr)}}
+@media(min-width:700px){.pcont{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1080px){.pcont{grid-template-columns:repeat(4,1fr)}}
 .pcont a,.pcont div{display:block;background:#181818;border:1px solid var(--line-d);
   padding:clamp(22px,2.2vw,30px);text-decoration:none;color:var(--bone);
   transition:transform .5s var(--ease),border-color .4s ease}
@@ -229,9 +230,16 @@ I = {
 }
 
 # ---------------------------------------------------------------- shared copy
-PHONE1, PHONE2 = "+380 96 056 28 68", "+380 67 719 84 74"
-TEL1, TEL2 = "+380960562868", "+380677198474"
 MAIL = "sales@automatonpower.com.ua"
+# (display, tel: href, role label) — the client's roles, sales numbers numbered
+# so two identical labels can't read as a duplicated row.
+PHONES = [
+    ("+380 96 056 28 68", "+380960562868", "Технічна підтримка"),
+    ("+380 67 719 84 74", "+380677198474", "Відділ продажу 01"),
+    ("+380 67 719 84 02", "+380677198402", "Відділ продажу 02"),
+]
+# the number quoted when the form fails — sales, not support
+PHONE_SALES, TEL_SALES = PHONES[1][0], PHONES[1][1]
 
 COMMON_FAQ = [
  ("Чи можемо ми передати власні елементи?",
@@ -687,6 +695,12 @@ def build(key):
         {ARW}
       </a>''' for k in others)
 
+    phone_cards = "\n      ".join(
+        f'''<a href="tel:{tel}">
+        <span class="pcont-ico" aria-hidden="true">{svg(I["phone"])}</span>
+        <b>{num}</b><span class="pcont-role">{role}</span>
+      </a>''' for num, tel, role in PHONES)
+
     pdf = f'datasheets/automaton-power-{key}.pdf'
 
     return f"""<!DOCTYPE html>
@@ -903,14 +917,7 @@ def build(key):
     </div>
 
     <div class="pcont mt-6 reveal d2">
-      <a href="tel:{TEL1}">
-        <span class="pcont-ico" aria-hidden="true">{svg(I["phone"])}</span>
-        <b>{PHONE1}</b><span class="pcont-role">Менеджер 01</span>
-      </a>
-      <a href="tel:{TEL2}">
-        <span class="pcont-ico" aria-hidden="true">{svg(I["phone"])}</span>
-        <b>{PHONE2}</b><span class="pcont-role">Менеджер 02</span>
-      </a>
+{phone_cards}
       <a href="mailto:{MAIL}">
         <span class="pcont-ico" aria-hidden="true">{svg(I["mail"])}</span>
         <b>{MAIL}</b><span class="pcont-role">Email</span>

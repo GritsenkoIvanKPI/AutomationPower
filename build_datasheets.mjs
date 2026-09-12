@@ -64,7 +64,7 @@ const sheet = (p, rows) => `<!DOCTYPE html><html lang="uk"><head><meta charset="
 
   <h1>${p.title}</h1>
   <p class="lead">Контрактне виробництво акумуляторних збірок за технічним завданням замовника —
-     з ваших або наших елементів. Серії від 100 шт., виробнича спроможність до 500+ акумуляторів на день.</p>
+     з ваших або наших елементів. Обсяг серії погоджується індивідуально, виробнича спроможність до 500+ акумуляторів на день.</p>
 
   <p class="lbl">Технічні характеристики</p>
   <table>${rows.map(([k, v]) => `<tr><td class="k">${k}</td><td class="v">${v}</td></tr>`).join('')}</table>
@@ -72,7 +72,7 @@ const sheet = (p, rows) => `<!DOCTYPE html><html lang="uk"><head><meta charset="
      тип роз’ємів і вимоги до кріплення погоджуються до запуску дослідного зразка.</p>
 
   <div class="foot">
-    <span><b>+380 96 056 28 68</b> · <b>+380 67 719 84 74</b></span>
+    <span><b>+380 67 719 84 74</b> · <b>+380 67 719 84 02</b> · <b>+380 96 056 28 68</b></span>
     <span><b>sales@automatonpower.com.ua</b> · automatonpower.com.ua</span>
   </div>
 </div></body></html>`;

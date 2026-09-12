@@ -24,8 +24,14 @@ Site language: **Ukrainian**. Existing site: https://automatonpower.com.ua/ (bei
 - Capacity claim carried over from the live site: **up to 500+ batteries / day**.
 
 ## Contacts
-- Manager 1: +380960562868
-- Manager 2: +380677198474
+- Technical support: +380960562868
+- Sales 01: +380677198474
+- Sales 02: +380677198402
+- The brief's original "менеджер 1 / менеджер 2" labels are superseded: the client gave roles
+  (technical support / sales) on 2026-09-12 and added the third line. The two sales lines are
+  labelled 01 and 02 on the site so two identical labels can't read as a duplicated row.
+  Sales is the primary number: it is the `telephone` in the Organization JSON-LD and the one the
+  quote form quotes when submission fails.
 - Email: sales@automatonpower.com.ua
 
 ## Homepage structure (fixed, agreed with client)

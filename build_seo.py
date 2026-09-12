@@ -47,15 +47,17 @@ ORG = {
                     "до 500+ акумуляторів на день."),
     "foundingDate": "2023",
     "email": "sales@automatonpower.com.ua",
-    "telephone": "+380960562868",
+    "telephone": "+380677198474",
     "address": {"@type": "PostalAddress", "addressCountry": "UA"},
     "areaServed": {"@type": "Country", "name": "Україна"},
     "knowsLanguage": ["uk"],
     "contactPoint": [
-        {"@type": "ContactPoint", "telephone": "+380960562868", "contactType": "sales",
-         "availableLanguage": ["uk"], "areaServed": "UA"},
         {"@type": "ContactPoint", "telephone": "+380677198474", "contactType": "sales",
-         "availableLanguage": ["uk"], "areaServed": "UA"},
+         "name": "Відділ продажу 01", "availableLanguage": ["uk"], "areaServed": "UA"},
+        {"@type": "ContactPoint", "telephone": "+380677198402", "contactType": "sales",
+         "name": "Відділ продажу 02", "availableLanguage": ["uk"], "areaServed": "UA"},
+        {"@type": "ContactPoint", "telephone": "+380960562868", "contactType": "technical support",
+         "name": "Технічна підтримка", "availableLanguage": ["uk"], "areaServed": "UA"},
         {"@type": "ContactPoint", "email": "sales@automatonpower.com.ua",
          "contactType": "customer support", "availableLanguage": ["uk"]},
     ],
@@ -201,7 +203,8 @@ LLMS = """# Automaton Power
 
 ## Контакти
 
-- Телефон: +380 96 056 28 68, +380 67 719 84 74
+- Відділ продажу: +380 67 719 84 74, +380 67 719 84 02
+- Технічна підтримка: +380 96 056 28 68
 - Email: sales@automatonpower.com.ua
 - Сайт: %(site)s/
 """ % {"site": SITE}
