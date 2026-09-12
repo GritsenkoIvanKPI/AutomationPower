@@ -132,6 +132,10 @@ def add_image_dims(files):
             srcm = re.search(r'src="([^"]+)"', tag)
             if not srcm or srcm.group(1).startswith("data:"):
                 return tag
+            # Third-party images (the Meta tracking pixel) must be left exactly as the
+            # vendor wrote them — lazy-loading a tracking pixel can stop it firing at all.
+            if srcm.group(1).startswith(("http://", "https://", "//")):
+                return tag
             url = srcm.group(1)
             img = pathlib.Path(url)
             # re-runnable: clear previous hints before deciding again

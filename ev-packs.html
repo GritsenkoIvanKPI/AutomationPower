@@ -202,6 +202,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4587027378234316');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 <style>
 :root{
   /* Neutral grey base — no warm tint. Every section shares one flat background;
@@ -785,6 +799,7 @@ body.nav-open{overflow:hidden}
 .fmsg.show{display:block}
 /* off-screen rather than display:none — bots fill what they can parse, and a
    display:none field is an obvious tell */
+.px-hidden{display:none}
 .form-trap{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .field.is-invalid input,.field.is-invalid textarea,.field.is-invalid select{border-bottom-color:var(--err)}
 .form-error{margin:18px 0 0;font-size:13.5px;line-height:1.6;color:var(--err);display:none}
@@ -1010,6 +1025,10 @@ a.cline:hover .cval{color:var(--accent)}
 </head>
 <body>
 
+<!-- Meta Pixel (no-JS fallback) -->
+<noscript><img height="1" width="1" class="px-hidden" alt=""
+src="https://www.facebook.com/tr?id=4587027378234316&amp;ev=PageView&amp;noscript=1"></noscript>
+
 <header class="hdr" id="hdr">
   <div class="wrap hdr-in">
     <a href="index.html" class="brand" aria-label="Automaton Power — на головну">
@@ -1126,7 +1145,7 @@ a.cline:hover .cval{color:var(--accent)}
     </div>
     <div class="phero-media reveal d2">
       <span class="phero-tag">EV · МОДУЛІ</span>
-      <img src="images/hero-ev.jpg" alt="Акумуляторний пакет для електротранспорту в синій термоусадці">
+      <img fetchpriority="high" decoding="async" width="1200" height="896" src="images/hero-ev.jpg" alt="Акумуляторний пакет для електротранспорту в синій термоусадці">
     </div>
   </div>
   <div class="wrap">
@@ -1272,12 +1291,12 @@ a.cline:hover .cval{color:var(--accent)}
         вигляд конкретного виробу погоджуємо за вашим технічним завданням.</p>
     </div>
     <div class="mosaic mt-6 reveal d2">
-      <figure class="mo mo-lg"><img src="images/hero-ev.jpg" alt="EV / Module — Пакети для електротранспорту" loading="lazy"><figcaption>EV / Module</figcaption></figure>
-      <figure class="mo"><img src="images/pev-2.jpg" alt="Shrink / Blue — Пакети для електротранспорту" loading="lazy"><figcaption>Shrink / Blue</figcaption></figure>
-      <figure class="mo"><img src="images/pev-1.jpg" alt="Module / Black — Пакети для електротранспорту" loading="lazy"><figcaption>Module / Black</figcaption></figure>
-      <figure class="mo"><img src="images/g3.jpg" alt="Pack — Пакети для електротранспорту" loading="lazy"><figcaption>Pack</figcaption></figure>
-      <figure class="mo"><img src="images/pev-3.jpg" alt="Weight control — Пакети для електротранспорту" loading="lazy"><figcaption>Weight control</figcaption></figure>
-      <figure class="mo"><img src="images/g2.jpg" alt="Balance lead — Пакети для електротранспорту" loading="lazy"><figcaption>Balance lead</figcaption></figure>
+      <figure class="mo mo-lg"><img decoding="async" width="1200" height="896" src="images/hero-ev.jpg" alt="EV / Module — Пакети для електротранспорту"><figcaption>EV / Module</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1200" height="896" src="images/pev-2.jpg" alt="Shrink / Blue — Пакети для електротранспорту"><figcaption>Shrink / Blue</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/pev-1.jpg" alt="Module / Black — Пакети для електротранспорту"><figcaption>Module / Black</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g3.jpg" alt="Pack — Пакети для електротранспорту"><figcaption>Pack</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/pev-3.jpg" alt="Weight control — Пакети для електротранспорту"><figcaption>Weight control</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/g2.jpg" alt="Balance lead — Пакети для електротранспорту"><figcaption>Balance lead</figcaption></figure>
     </div>
   </div>
 </section>

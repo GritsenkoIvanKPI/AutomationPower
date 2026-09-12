@@ -20,6 +20,12 @@ shared_css = re.search(r"<style>(.*?)</style>", _home, re.S).group(1)
 form_js = re.search(r"(/\* =+\n   quote form -> send-form\.php.*?^\}\)\(\);)",
                     _home, re.S | re.M).group(1)
 
+# Analytics is lifted too, so the pixel id can only ever be changed in one place.
+pixel = re.search(r"<!-- Meta Pixel Code -->.*?<!-- End Meta Pixel Code -->\n",
+                  _home, re.S).group(0)
+pixel_noscript = re.search(r"<!-- Meta Pixel \(no-JS fallback\) -->.*?</noscript>\n",
+                           _home, re.S).group(0)
+
 # ---------------------------------------------------------------- page-only block styles
 PAGE_CSS = r"""
 /* =========================================================================
@@ -721,10 +727,11 @@ def build(key):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-<style>{shared_css}{PAGE_CSS}</style>
+{pixel}<style>{shared_css}{PAGE_CSS}</style>
 </head>
 <body>
 
+{pixel_noscript}
 {header(key)}
 
 <main id="top">

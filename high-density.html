@@ -202,6 +202,20 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700;800;900&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '4587027378234316');
+fbq('track', 'PageView');
+</script>
+<!-- End Meta Pixel Code -->
 <style>
 :root{
   /* Neutral grey base — no warm tint. Every section shares one flat background;
@@ -785,6 +799,7 @@ body.nav-open{overflow:hidden}
 .fmsg.show{display:block}
 /* off-screen rather than display:none — bots fill what they can parse, and a
    display:none field is an obvious tell */
+.px-hidden{display:none}
 .form-trap{position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden}
 .field.is-invalid input,.field.is-invalid textarea,.field.is-invalid select{border-bottom-color:var(--err)}
 .form-error{margin:18px 0 0;font-size:13.5px;line-height:1.6;color:var(--err);display:none}
@@ -1010,6 +1025,10 @@ a.cline:hover .cval{color:var(--accent)}
 </head>
 <body>
 
+<!-- Meta Pixel (no-JS fallback) -->
+<noscript><img height="1" width="1" class="px-hidden" alt=""
+src="https://www.facebook.com/tr?id=4587027378234316&amp;ev=PageView&amp;noscript=1"></noscript>
+
 <header class="hdr" id="hdr">
   <div class="wrap hdr-in">
     <a href="index.html" class="brand" aria-label="Automaton Power — на головну">
@@ -1126,7 +1145,7 @@ a.cline:hover .cval{color:var(--accent)}
     </div>
     <div class="phero-media reveal d2">
       <span class="phero-tag">POUCH · HIGH ENERGY</span>
-      <img src="images/hero-hd.jpg" alt="Високощільна акумуляторна збірка зі стосу pouch-елементів у сріблястій фользі">
+      <img fetchpriority="high" decoding="async" width="1195" height="896" src="images/hero-hd.jpg" alt="Високощільна акумуляторна збірка зі стосу pouch-елементів у сріблястій фользі">
     </div>
   </div>
   <div class="wrap">
@@ -1272,12 +1291,12 @@ a.cline:hover .cval{color:var(--accent)}
         вигляд конкретного виробу погоджуємо за вашим технічним завданням.</p>
     </div>
     <div class="mosaic mt-6 reveal d2">
-      <figure class="mo mo-lg"><img src="images/hero-hd.jpg" alt="Pouch / Stack — Висока щільність" loading="lazy"><figcaption>Pouch / Stack</figcaption></figure>
-      <figure class="mo"><img src="images/phd-2.jpg" alt="Foil edges — Висока щільність" loading="lazy"><figcaption>Foil edges</figcaption></figure>
-      <figure class="mo"><img src="images/type-hd.jpg" alt="High density — Висока щільність" loading="lazy"><figcaption>High density</figcaption></figure>
-      <figure class="mo"><img src="images/phd-1.jpg" alt="Assembly — Висока щільність" loading="lazy"><figcaption>Assembly</figcaption></figure>
-      <figure class="mo"><img src="images/phd-3.jpg" alt="End face — Висока щільність" loading="lazy"><figcaption>End face</figcaption></figure>
-      <figure class="mo"><img src="images/phd-4.jpg" alt="Pouch / Yellow — Висока щільність" loading="lazy"><figcaption>Pouch / Yellow</figcaption></figure>
+      <figure class="mo mo-lg"><img decoding="async" width="1195" height="896" src="images/hero-hd.jpg" alt="Pouch / Stack — Висока щільність"><figcaption>Pouch / Stack</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/phd-2.jpg" alt="Foil edges — Висока щільність"><figcaption>Foil edges</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/type-hd.jpg" alt="High density — Висока щільність"><figcaption>High density</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/phd-1.jpg" alt="Assembly — Висока щільність"><figcaption>Assembly</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/phd-3.jpg" alt="End face — Висока щільність"><figcaption>End face</figcaption></figure>
+      <figure class="mo"><img loading="lazy" decoding="async" width="1195" height="896" src="images/phd-4.jpg" alt="Pouch / Yellow — Висока щільність"><figcaption>Pouch / Yellow</figcaption></figure>
     </div>
   </div>
 </section>
