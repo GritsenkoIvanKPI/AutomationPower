@@ -1549,6 +1549,28 @@ document.querySelectorAll('.pfaq details').forEach(d => {
   };
   const FIELD_OF = { name: '#f-name', phone: '#f-phone', email: '#f-email' };
 
+  /* Meta Pixel — one Lead per server-confirmed submission, never on click.
+     The button-click events Meta detects automatically fire even when delivery to
+     Telegram failed, so they are not a lead signal; this one only runs after the
+     endpoint has answered {ok:true}.
+
+     Guarded for two reasons: an ad blocker can remove fbq after the snippet has
+     already defined it, and a throw here would be caught by the submit handler's
+     catch block and print a network error on top of the success message.
+
+     No name, phone or email is sent. Meta only needs to know that a lead
+     happened; passing contact details would mean Advanced Matching, which needs
+     hashing and a consent basis we do not have. */
+  const trackLead = () => {
+    try {
+      if (typeof fbq !== 'function') return;
+      fbq('track', 'Lead', {
+        content_category: form.querySelector('#f-type').value || 'other',
+        content_name: location.pathname.split('/').pop() || 'index.html',
+      });
+    } catch (_) { /* analytics must never break the form */ }
+  };
+
   const clear = () => {
     form.querySelectorAll('.field.is-invalid').forEach(f => f.classList.remove('is-invalid'));
     errBox.classList.remove('show');
@@ -1600,6 +1622,7 @@ document.querySelectorAll('.pfaq details').forEach(d => {
       try { payload = await res.json(); } catch (_) { /* keep the empty object */ }
 
       if (res.ok && payload.ok) {
+        trackLead();
         form.hidden = true;
         done.classList.add('show');
         done.scrollIntoView({ behavior: 'smooth', block: 'center' });
